@@ -173,9 +173,9 @@ JFileChooser fileChooser;
                 .addGap(5, 5, 5)
                 .addComponent(l4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(132, 132, 132))
         );
 
@@ -264,16 +264,121 @@ if(evt.getSource()==submit)
 			}
 		}
         }
-        int op1 = newline.indexOf(">");
+        //==============================and or start
+       if(newline.indexOf('&')!=-1||newline.indexOf('|')!=-1)
+       {
+          String s=newline;
+        int index1=s.indexOf('&');
+        int index2=s.indexOf('|');
+        boolean flag1=true;
+        boolean flag2=false;
+        boolean flag11=false;
+        boolean flag12=false;
+        boolean flag13=false;
+         boolean flag14=false;
+         int kkk;
+         boolean flag15=false;
+         int temp1=-1;
+         int temp2=-1;
+         index1=s.indexOf('&');
+        index2=s.indexOf('|');
+        while(index1!=-1||index2!=-1)
+        {
+            while(index1!=-1&&index2==-1)
+            {
+                String s1=s.substring(0,index1);
+                System.out.println("loop11 s1:"+s1);
+                
+                flag11=eval(s1);
+              
+                s=s.substring(index1+2);
+                flag1=flag1&&flag11;
+                temp1=index1;temp2=-1;
+                index1=s.indexOf('&');
+               
+            }
+            //end of while loop
+            while(index1==-1&&index2!=-1)
+            {
+                String s2=s.substring(0,index2);
+                System.out.println("loop12 s2:"+s2);
+              flag12=eval(s2);
+                s=s.substring(index2+2);
+                flag1=flag1||flag12;
+                temp1=-1;temp2=index2;
+                index2=s.indexOf('|');
+            }
+            while(index1<index2&&index1!=-1&&index2!=-1)
+            {
+                String s3=s.substring(0,index1);
+                 System.out.println("loop1 s3:"+s3);
+               flag13=eval(s3);
+                
+                flag1=flag1&&flag13;
+                s=s.substring(index1+2);
+                 System.out.println("loop1 s:"+s);
+                 temp1=index1;temp2=index2;
+                index1=s.indexOf('&');
+                index2=s.indexOf('|');
+                 System.out.println("loop1 i1,i2:"+index1+"..."+index2);
+            }
+            while(index1>index2&&index1!=-1&&index2!=-1)
+            {
+                String s4=s.substring(0,index2);
+                 System.out.println("loop2 s4:"+s4);
+                flag14=eval(s4);
+                          
+                flag1=flag1||flag14;
+                s=s.substring(index2+2);
+                System.out.println("loop2 s:"+s);
+                temp1=index1;temp2=index2;
+                index1=s.indexOf('&');
+                index2=s.indexOf('|');
+                System.out.println("loop2 i1,i2:"+index1+"...."+index2);
+            }
+            
+           
+            if(!s.equals("")&&index1==-1&&index2==-1)
+                    {
+              
+                        
+                        if(temp1!=-1&&temp2==-1)
+                        {
+                            
+                            System.out.println("loop3 s:"+s);
+                            flag15=eval(s);
+                            flag1=flag1&&flag15;
+                            System.out.println("final output:"+flag1);
+                            l2.setText(Boolean.toString(flag1));
+                    }
+                        if(temp1==-1&&temp2!=-1)
+                        {
+                            
+                            System.out.println("loop4 s:"+s);
+                          
+                            flag1=flag1||flag15;
+                            System.out.println("final output:"+flag1);
+                            l2.setText(Boolean.toString(flag1));
+                    }
+                    }
+            else
+            {System.out.println("final output:"+flag1);
+            l2.setText(Boolean.toString(flag1));}
+            
+            
+        } 
+       }
+        //=========================and or end
+        else{    int op1 = newline.indexOf(">");
      
-     int op2 = newline.indexOf("<");
+    int op2 = newline.indexOf("<");
      boolean x1=newline.matches("(.*)>=(.*)");
      boolean x2=newline.matches("(.*)<=(.*)");
      int op5 = newline.indexOf("==");
      int op6 = newline.indexOf("!=");
      System.out.println(newline);
        
-        if(x1)
+     if(x1)
      {
          
    String d = newline.substring(0, op1);
@@ -290,19 +395,21 @@ try{
 if(Double.toString(v).equals("NaN")||Double.toString(w).equals("NaN")){
     l6.setText("Expression entered is not valid");
     l2.setText("");
-    l3.setText("");
+   //3.setText("");
 }
 else
+    //dummy expression in order to enter in to catch block if the above if condition is false
     kkk=Integer.parseInt("a");
 }catch(Exception a){
     l6.setText("");
 System.out.println(v);
 System.out.println(w);
 if(v>=w)
-{  l2.setText("TRUE");
-    l3.setText("");}
+{  l2.setText("true");
+   //3.setText("");
+   }
 else
-    {l3.setText("FALSE");l2.setText("");}
+{l2.setText("false");}
      }
      }
         else if(x2)
@@ -328,10 +435,10 @@ else
     System.out.println(v);
 System.out.println(w);
 if(v<=w)
-{  l2.setText("TRUE");
-    l3.setText("");}
+{  l2.setText("true");
+    }
 else
-    {l3.setText("FALSE");l2.setText("");}
+    {l2.setText("false");}
      }
      }
         else if(op5!=-1)
@@ -358,9 +465,9 @@ else
 System.out.println(w);
 if(v==w)
 {  l2.setText("true");
-    l3.setText("");}
+    }
 else
-    {l3.setText("false");l2.setText("");}
+    {l2.setText("false");}
      }
      }
         else if(op1!=-1)
@@ -389,11 +496,11 @@ else
 System.out.println(w);
 if(v>w)
 { l2.setText("true");
-    l3.setText("");
+   
 
 }
 else
-{l3.setText("false");l2.setText("");}
+{l2.setText("false");}
      }
      }
       else if(op2!=-1)
@@ -419,10 +526,10 @@ else
     System.out.println(v);
 System.out.println(w);
 if(v<w)
-{  l2.setText("TRUE");
+{  l2.setText("true");
     l3.setText("");}
 else
-    {l3.setText("FALSE");l2.setText("");}
+    {l2.setText("false");}
      }
      }
        else if(op6!=-1)
@@ -448,12 +555,14 @@ else
     System.out.println(v);
 System.out.println(w);
 if(v!=w)
-{  l2.setText("TRUE");
+{  l2.setText("true");
     l3.setText("");}
 
 else
-    {l3.setText("FALSE");l2.setText("");}
+    {l2.setText("false");}
      }  
+    }
+    
     }
     }
     
@@ -672,7 +781,7 @@ resul2(line);
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
 if(evt.getSource()==button1)
-{// TO
+{
     l2.setText("");
     l3.setText("");
     l4.setText("");
@@ -682,6 +791,26 @@ if(evt.getSource()==button1)
     
     }//GEN-LAST:event_button1ActionPerformed
     }
+    public String string;
+
+    /**
+     * Get the value of string
+     *
+     * @return the value of string
+     */
+    public String getString() {
+        return string;
+    }
+
+    /**
+     * Set the value of string
+     *
+     * @param string new value of string
+     */
+    public void setString(String string) {
+        this.string = string;
+    }
+
 public static void resul1(String line)
    {
        
@@ -712,6 +841,232 @@ out.println(line+"\t==>false");
 
 } catch (IOException x) {} 
    }
+    
+ //===========================and or function eval start
+    public boolean  eval(String exp)
+    {
+        boolean xx1=false;
+        String newline=exp;
+        int op1 = newline.indexOf(">");
+     
+    int op2 = newline.indexOf("<");
+     boolean x1=newline.matches("(.*)>=(.*)");
+     boolean x2=newline.matches("(.*)<=(.*)");
+     int op5 = newline.indexOf("==");
+     int op6 = newline.indexOf("!=");
+     if(newline.lastIndexOf(')')==newline.length()-1)
+         {
+             newline=newline.substring(1,newline.length()-1);
+             op1 = newline.indexOf(">");
+     
+    op2 = newline.indexOf("<");
+     x1=newline.matches("(.*)>=(.*)");
+     x2=newline.matches("(.*)<=(.*)");
+    op5 = newline.indexOf("==");
+    op6 = newline.indexOf("!=");
+         }
+        if(x1)
+     {
+        
+        /* if(newline.lastIndexOf(')')==newline.length()-1)
+         {
+             newline=newline.substring(1,newline.length()-1);
+             op1 = newline.indexOf(">");
+     
+    op2 = newline.indexOf("<");
+     x1=newline.matches("(.*)>=(.*)");
+     x2=newline.matches("(.*)<=(.*)");
+    op5 = newline.indexOf("==");
+    op6 = newline.indexOf("!=");
+             
+            System.out.println("eval1:"+newline);
+         }*/
+         //System.out.println("eval:"+newline);
+   String d = newline.substring(0, op1);
+   System.out.println(d+"...........eval d");
+   String z = newline.substring(op1+2);
+    System.out.println(z+"....eval z");
+   
+       Expression e = new Expression(d);
+       Expression f = new Expression(z);
+      int a;
+      int kkk;
+double v =(double) e.calculate();
+double w =(double) f.calculate();
+try{
+if(Double.toString(v).equals("NaN")||Double.toString(w).equals("NaN")){
+    System.out.println("illegal expression");
+   // System.exit(0);
+}
+else
+    kkk=Integer.parseInt("a");
+}catch(Exception cc){
+if(v>=w)
+{  xx1=true;
+return xx1;
+}
+else{
+    xx1=false;
+    return false;}
+     }
+}
+        else if(x2)
+     {
+   String d = newline.substring(0, op2);
+   System.out.println(d+"...........eval d");
+   String z = newline.substring(op2+2);
+    System.out.println(z+"....eval z");
+   
+       Expression e = new Expression(d);
+       Expression f = new Expression(z);
+      int a;
+      int kkk;
+double v =(double) e.calculate();
+double w =(double) f.calculate();
+try{
+if(Double.toString(v).equals("NaN")||Double.toString(w).equals("NaN")){
+    System.out.println("illegal expression");
+   // System.exit(0);
+}
+else
+    kkk=Integer.parseInt("a");
+}catch(Exception cc){
+if(v<=w)
+{  xx1=true;
+return xx1;
+}
+else{
+    xx1=false;
+    return false;}
+     }
+}
+         else if(op5!=-1)
+     {
+   String d = newline.substring(0, op5);
+   System.out.println(d+"...........eval d");
+   String z = newline.substring(op5+2);
+    System.out.println(z+"....eval z");
+   
+       Expression e = new Expression(d);
+       Expression f = new Expression(z);
+      int a;
+      int kkk;
+double v =(double) e.calculate();
+double w =(double) f.calculate();
+try{
+if(Double.toString(v).equals("NaN")||Double.toString(w).equals("NaN")){
+    System.out.println("illegal expression");
+    //System.exit(0);
+}
+else
+    kkk=Integer.parseInt("a");
+}catch(Exception cc){
+if(v==w)
+{  xx1=true;
+return xx1;
+}
+else{
+    xx1=false;
+    return false;}
+     }
+}
+         else if(op1!=-1)
+     {
+   String d = newline.substring(0, op1);
+   System.out.println(d+"...........eval d");
+   String z = newline.substring(op1+1);
+    System.out.println(z+"....eval z");
+   
+       Expression e = new Expression(d);
+       Expression f = new Expression(z);
+      int a;
+      int kkk;
+double v =(double) e.calculate();
+double w =(double) f.calculate();
+try{
+if(Double.toString(v).equals("NaN")||Double.toString(w).equals("NaN")){
+    System.out.println("illegal expression");
+    System.exit(0);
+}
+else
+    kkk=Integer.parseInt("a");
+}catch(Exception cc){
+if(v<=w)
+{  xx1=true;
+return xx1;
+}
+else{
+    xx1=false;
+    return false;}
+     }
+}
+         else if(op2!=-1)
+     {
+   String d = newline.substring(0, op2);
+   System.out.println(d+"...........eval d");
+   String z = newline.substring(op2+1);
+    System.out.println(z+"....eval z");
+   
+       Expression e = new Expression(d);
+       Expression f = new Expression(z);
+      int a;
+      int kkk;
+double v =(double) e.calculate();
+double w =(double) f.calculate();
+try{
+if(Double.toString(v).equals("NaN")||Double.toString(w).equals("NaN")){
+    System.out.println("illegal expression");
+    System.exit(0);
+}
+else
+    kkk=Integer.parseInt("a");
+}catch(Exception cc){
+if(v<w)
+{  xx1=true;
+return xx1;
+}
+else{
+    xx1=false;
+    return false;}
+     }
+}
+         else if(op6!=-1)
+     {
+   String d = newline.substring(0, op6);
+   System.out.println(d+"...........eval d");
+   String z = newline.substring(op1+2);
+    System.out.println(z+"....eval z");
+   
+       Expression e = new Expression(d);
+       Expression f = new Expression(z);
+      int a;
+      int kkk;
+double v =(double) e.calculate();
+double w =(double) f.calculate();
+try{
+if(Double.toString(v).equals("NaN")||Double.toString(w).equals("NaN")){
+    System.out.println("illegal expression");
+    //System.exit(0);
+}
+else
+    kkk=Integer.parseInt("a");
+}catch(Exception cc){
+if(v!=w)
+{  xx1=true;
+return xx1;
+}
+else{
+    xx1=false;
+    return false;}
+     }
+}
+        return xx1;   
+    }
+    
+   
+    //========================and or function eval end
+    
+    
     /**
      * @param args the command line arguments
      */
