@@ -80,7 +80,7 @@ JFileChooser fileChooser;
 
         jLabel1.setText("            1.Input Single Expression:");
 
-        jLabel2.setText("2.Input Multiple Expressions as a file:");
+        jLabel2.setText("2.Input Multiple Expressions as file:");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 0, 51));
